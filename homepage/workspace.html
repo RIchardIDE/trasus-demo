@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Trasus - My Workspace</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="../homepage/homepage.css">
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        background: "var(--color-background)",
+                        "tertiary": "#00dbe9",
+                        primary: "var(--color-primary)",
+                        "surface-container-low": "#1a1c1e",
+                        "surface-container-high": "#282a2c",
+                        "surface-container-highest": "#333537",
+                        "surface-container-lowest": "#0c0e10",
+                        "outline-variant": "#44474d",
+                        surface: "var(--color-surface)",
+                        "on-surface": "var(--color-on-surface)",
+                        "on-surface-variant": "#c5c6cd"
+                    },
+                    "fontFamily": {
+                        "headline": ["Chakra Petch", "serif"],
+                        "body": ["Chakra Petch", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            /* Light Mode Values */
+            --color-primary: #e7e7e7;
+            --color-background: #ffffff;
+            --color-surface: #e7fcff;
+            --color-alter-text: #121416;
+            --color-on-surface: #121416;
+            --nav-active-bg: #ccd7ff;           
+            --nav-active-text: #428eff;
+            --nav-active-glow: rgba(0, 102, 255, 0.25);
+            --input-bg: #ffffff;
+            --input-border: #d1d5db;
+            --input-placeholder: #6b7280;
+            --input-focus: #428eff;
+
+            --card-bg: #ffffff;
+            --card-alt-bg:#f0f7ff;
+            --card-hover: #f5f7fa;
+            --card-border: #e5e7eb;
+
+            --container-bg: #edf4f5;
+            --container-hover: #e2e8f0;
+
+            --text-primary: #121416;
+            --text-secondary: #6b7280;
+
+            /* Tags */
+            --tag-bg: rgba(66, 142, 255, 0.1);
+            --tag-hover: rgba(66, 142, 255, 0.2);
+            --tag-text: #428eff;
+            --tag-border: rgba(66, 142, 255, 0.2);
+        }
+
+        .dark {
+            /* Dark Mode Values (From your current config) */
+            --color-primary: #b9c7e4;
+            --color-background: #121416;
+            --color-surface: #1e2022;
+            --color-on-surface: #e2e2e5;
+            --color-alter-text: #c2dff3;
+            --nav-active-bg: #0a192f;
+            --nav-active-text: #00dbe9;
+            --nav-active-glow: rgba(0, 219, 233, 0.3);
+            --input-bg: #0c0e10;
+            --input-border: #44474d;
+            --input-placeholder: #c5c6cd;
+            --input-focus: #00dbe9;
+
+            --card-bg: #1a1c1e;
+            --card-alt-bg:#0a192f;
+            --card-hover: #282a2c;
+            --card-border: #44474d;
+
+            --container-bg: #1e2022;
+            --container-hover: #333537;
+
+            --text-primary: #e2e2e5;
+            --text-secondary: #c5c6cd;
+
+            /* Tags */
+            --tag-bg: rgba(0, 219, 233, 0.1);
+            --tag-hover: rgba(0, 219, 233, 0.2);
+            --tag-text: #00dbe9;
+            --tag-border: rgba(0, 219, 233, 0.2);
+
+            --bookmark-cut: var(--color-surface);
+            
+        }
+
+        .glass-panel {
+            background: rgba(51, 53, 55, 0.6);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+
+        .bg-moody-library {
+            background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuA1iiWMbQVBNyToj6p0C2ltipPJdbDaPT4wCVo5_ZUsFoaAofpFJ2_iX6EyCY8by_QS5ZDKZFiOX2mzPkmLUv6bKa3QX92jmjbt4ICFm6dJVfQayTWsjos3S_2LSJrTkxbjZ7dvqPk1C7ePU7yyfMGWHjMnB7fnE-qllaLjfrFYzU8ot5llN76-_EhhgOZfVed965kKintEhAV2kgAua8h5t7obDG_zsjM0k5AaV3r1rnPIHw8skIC0FDeMFudm8P-CdYHDChyiV1s);
+            background-size: cover;
+            background-position: center;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333537;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body class="bg-[var(--color-background)] text-[var(--color-on-surface)] font-body h-screen overflow-hidden relative">
+
+    <!-- Ambient Background Layer -->
+    <header class="lg:hidden flex items-center justify-between h-16 px-6 bg-[var(--color-surface)] border-b border-white/10 sticky top-0 z-40 shadow-md">
+        <div class="flex items-center gap-4">
+            <!-- ปุ่ม Hamburger -->
+            <button id="hamburgerBtn" class="p-2 -ml-2 text-[var(--nav-active-text)] hover:bg-white/10 rounded-lg transition-colors focus:outline-none">
+                <span class="material-symbols-outlined text-3xl">menu</span>
+            </button>
+            <span class="font-headline font-bold text-xl tracking-wide">Trasus</span>
+        </div>
+        
+    </header>
+    <div id="navOverlay" class="fixed inset-0 bg-black/70 z-40 hidden opacity-0 transition-opacity duration-300 xl:hidden backdrop-blur-sm"></div>
+
+    <div class="fixed inset-0 z-[-1] bg-moody-library opacity-[0.03] blur-xl pointer-events-none"></div>
+
+    <div class="flex h-full w-full">
+        <!-- <div class="menu-toggle">
+            <div class="hamburger">
+                <span></spau>
+            </div>
+        </div> -->
+        <aside id="sideNav" class="sidebar tonal-layering border-r border-white/5 -translate-x-full lg:translate-x-0 transition-transform duration-300">
+            <div class="px-8 mb-10 flex items-center gap-4">
+                <h1 class="font-headline text-4xl m-0 leading-tight">Trasus</h1>
+                <!-- ปุ่มกากบาทปิดเมนู (โชว์เฉพาะใน iPad/Mobile) -->
+                <button id="closeMenuBtn" class="lg:hidden ml-auto p-1 text-gray-400 hover:text-white rounded-md">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto px-4 space-y-2 pt-2">
+                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body" href="../homepage/explorer.html">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">explore</span>
+                    <span>เครื่องมือสำรวจ</span>
+                </a>
+                <!-- <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
+                    href="../homepage/ai-legel-assistant.html">
+                    <span class="material-symbols-outlined">smart_toy</span>
+                    <span>ผู้ช่วยที่ปรึกษา AI</span>
+                </a> -->
+                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-[var(--nav-active-text)] bg-[var(--nav-active-bg)] 
+                    shadow-[0px_0px_12px_var(--nav-active-glow)] transition-all duration-300 font-body font-bold"
+                    href="../homepage/workspace.html">
+                    <span class="material-symbols-outlined">inventory_2</span>
+                    <span>Workspace ของคุณ</span>
+                </a>
+                <!-- <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
+                    href="../homepage/compare.html">
+                    <span class="material-symbols-outlined">compare_arrows</span>
+                    <span>เปรี่ยบเทียบคำศัพท์</span>
+                </a>
+                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
+                    href="../homepage/games.html">
+                    <span class="material-symbols-outlined">sports_esports</span>
+                    <span>เกมฝึกคำศัพท์</span>
+                </a>
+                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
+                    href="../homepage/store_rewards.html">
+                    <span class="material-symbols-outlined">local_library</span>
+                    <span>ร้านค้าของรางวัล</span>
+                </a>
+                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
+                    href="../homepage/skill.html">
+                    <span class="material-symbols-outlined">analytics</span>
+                    <span>วิเคราะห์ทักษะ</span>
+                </a> -->
+            </div>
+            <div class="px-4 mt-auto pt-6 border-t border-white/5 space-y-2">
+                <button class="w-full text-black bg-blue-300 flex justify-center items-center py-3.5 px-4 rounded-md shadow-sm font-body font-semibold hover:opacity-90 transition-all duration-200" id="theme-toggle">
+                    Toggle Theme
+                </button>
+                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
+                    href="#">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span>ตั้งค่า</span>
+                </a>
+                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
+                    href="#">
+                    <span class="material-symbols-outlined">help_outline</span>
+                    <span>สนับสนุนผู้ใช้</span>
+                </a>
+
+                <button onclick="handleLogout()" class="w-full flex items-center gap-4 px-4 py-3 rounded-r-full text-error opacity-70 hover:opacity-100 hover:bg-error/10 transition-all duration-300 font-body outline-none">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>ออกจากระบบ</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="flex-1 lg:ml-72 p-6 md:p-10 lg:p-12 overflow-y-auto h-screen custom-scrollbar">
+            <div class="mb-10 pl-2">
+                <h2 class="font-headline text-4xl text-[var(--color-alter-text)] md:text-5xl lg:text-6xl font-normal tracking-tight mb-2">
+                    Workspace ของคุณ</h2>
+                <p class="font-body text-on-surface text-lg">
+                    คลังข้อมูลที่คัดสรรมาอย่างเป็นระบบของบรรทัดฐานคำพิพากษาและองค์ความรู้ทางกฎหมาย</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 auto-rows-auto">
+
+                <!-- <section
+                    class="lg:col-span-4 rounded-xl bg-surface-container-low p-6 hover:bg-surface-container-high transition-all duration-500 group relative overflow-hidden border border-white/5">
+                    <div class="flex items-center justify-between mb-8 relative z-10">
+                        <h3 class="font-headline text-2xl text-primary">ฏีกาที่คุณรวบรวม</h3>
+                        <button
+                            class="text-tertiary text-sm font-label flex items-center gap-1 hover:text-tertiary-fixed transition-colors">
+                            View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                        </button>
+                    </div>
+                    <div class="space-y-4 relative z-10">
+                        <div
+                            class="p-4 rounded-lg bg-surface-container border border-outline-variant/10 flex items-start gap-4 hover:border-tertiary/30 transition-colors cursor-pointer group/folder">
+                            <div
+                                class="w-10 h-10 rounded-md bg-surface-variant flex items-center justify-center text-primary group-hover/folder:text-tertiary transition-colors">
+                                <span class="material-symbols-outlined">folder_open</span>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-body font-medium text-on-surface text-base mb-1">คำพิพากษาศาลฎีกาที่
+                                    ๑๒๓/๒๕๖๗</h4>
+                                <p class="font-label text-on-surface-variant text-xs">ศาลฎีกา • สัญญากฎหมาย</p>
+                            </div>
+                        </div>
+                        <div
+                            class="p-4 rounded-lg bg-surface-container border border-outline-variant/10 flex items-start gap-4 hover:border-tertiary/30 transition-colors cursor-pointer group/folder">
+                            <div
+                                class="w-10 h-10 rounded-md bg-surface-variant flex items-center justify-center text-primary group-hover/folder:text-tertiary transition-colors">
+                                <span class="material-symbols-outlined">folder_open</span>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-body font-medium text-on-surface text-base mb-1">คำพิพากษาศาลฎีกาที่
+                                    ๔๕๖/๒๕๖๖</h4>
+                                <p class="font-label text-on-surface-variant text-xs">ศาลฎีกา • สิทธิในทรัพย์สิน</p>
+                            </div>
+                        </div>
+                    </div>
+                </section> -->
+
+                <section
+                    class="lg:col-span-5 rounded-xl bg-[var(--card-bg)] p-6 transition-all duration-500 hover:bg-[var(--card-hover)] border border-[var(--card-border)]">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="font-headline text-2xl text-[var(--color-alter-text)]">ค้นหาคำศัพท์ที่บันทึกไว้</h3>
+                        <span class="material-symbols-outlined text-tertiary"
+                            style="font-variation-settings: 'FILL' 1;">star</span>
+                    </div>
+                    <div id="favoriteGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    </div>
+                    <div onclick="window.location.href='../homepage/explorer.html'"
+                        class="mt-3 p-4 rounded-lg bg-surface-container border border-outline-variant/10 flex items-center justify-center border-dashed group/add cursor-pointer hover:border-tertiary/50 transition-all">
+                        <div
+                            class="flex flex-col items-center gap-2 opacity-50 group-hover:opacity-100 transition-opacity">
+                            <span class="material-symbols-outlined text-3xl">add_circle</span>
+                            <span class="font-label text-xs">เพิ่มคำศัพท์</span>
+                        </div>
+                    </div>
+                </section>
+
+                <aside class="lg:col-span-3 rounded-xl glass-panel p-6 border bg-[var(--container-bg)] border border-[var(--card-border)] min-w-60 flex flex-col h-full">
+                    <div class="flex items-center text-[var(--color-alter-text)] gap-2 mb-6 border-b  border-outline-variant/20 pb-4">
+                        <span class="material-symbols-outlined ">ประวัติ</span>
+                        <span class="font-body text-xl">รายกิจกรรม</span>
+                    </div>
+                    <div
+                        class="space-y-6 relative before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-px before:bg-outline-variant/20">
+                        <div class="relative pl-8">
+                            <div
+                                class="absolute left-1 top-1.5 w-3 h-3 rounded-full bg-tertiary shadow-[0_0_8px_rgba(0,219,233,0.6)]">
+                            </div>
+                            <div class="mb-1 flex items-center justify-between">
+                                <span class="font-label text-[14px] text-tertiary uppercase tracking-wider">สรุปผล
+                                    จากAI</span>
+                                <span class="font-label text-[12px] text-on-surface-variant">2 ชั่วโมงที่แล้ว</span>
+                            </div>
+                            <h4 class="font-body text-md font-medium text-on-surface">การสรุปผล ของคำพิพากษาศาลฎีกาที่
+                                ๑๒๓/๒๕๖๗</h4>
+                        </div>
+                    </div>
+                </aside>
+
+                <section class="lg:col-span-5 rounded-xl bg-[var(--card-alt-bg)] p-6 border-b-2 border-tertiary/20">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <h3 class="font-headline text-lg text-on-surface mb-1">ความเชี่ยวชาญด้านความรู้ศัพท์กฎหมาย
+                            </h3>
+                            <p class="font-label text-xs text-on-surface-variant">
+                                พบรูปแบบการศึกษาที่สม่ำเสมอของผุ้ใช้งาน</p>
+                        </div>
+                        <div
+                            class="w-10 h-10 rounded-full border border-tertiary/30 flex items-center justify-center text-tertiary bg-tertiary/5">
+                            <span class="material-symbols-outlined">trending_up</span>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <div class="flex justify-between text-xs font-label mb-2">
+                            <span class="text-[var(--color-alter-text)] ">ปัจจุบันทำกิจกรรมติดต่อถึง</span>
+                            <span class="text-tertiary font-bold">14 วัน</span>
+                        </div>
+                        <div class="h-1.5 w-full bg-surface-variant/30 rounded-full overflow-hidden">
+                            <div class="h-full bg-tertiary w-[70%] rounded-full shadow-[0_0_10px_rgba(0,219,233,0.5)]">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+    <script type="module" src="../src/workspace.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const closeMenuBtn = document.getElementById('closeMenuBtn');
+            const sideNav = document.getElementById('sideNav');
+            const navOverlay = document.getElementById('navOverlay');
+
+            // ฟังก์ชันสำหรับเปิดเมนู
+            function openNav() {
+                sideNav.classList.remove('-translate-x-full');
+                sideNav.classList.add('translate-x-0');
+
+                navOverlay.classList.remove('hidden');
+                setTimeout(() => navOverlay.classList.replace('opacity-0', 'opacity-100'), 10);
+            }
+
+            function closeNav() {
+                sideNav.classList.add('-translate-x-full');
+                sideNav.classList.remove('translate-x-0');
+
+                navOverlay.classList.replace('opacity-100', 'opacity-0');
+                setTimeout(() => navOverlay.classList.add('hidden'), 300);
+            }
+
+            // จับคู่ Event ให้ปุ่มต่างๆ
+            hamburgerBtn.addEventListener('click', openNav);
+            closeMenuBtn.addEventListener('click', closeNav);
+            navOverlay.addEventListener('click', closeNav); // กดจอดำเพื่อปิด
+
+            // ป้องกันบั๊กเวลาหมุนหน้าจอ iPad (สลับแนวตั้ง-แนวนอน)
+            window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) { // lg breakpoint
+                sideNav.classList.remove('-translate-x-full');
+                sideNav.classList.add('translate-x-0');
+                navOverlay.classList.add('hidden');
+            } else {
+                sideNav.classList.add('-translate-x-full');
+                sideNav.classList.remove('translate-x-0');
+            }
+        });
+        });
+    </script>
+</body>
+
+</html>

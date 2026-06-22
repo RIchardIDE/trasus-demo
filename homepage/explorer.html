@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>The Sovereign Scholar - Smart Vocab Explorer</title>
+    <!-- Google Fonts: Newsreader (Headline), Manrope (Body), Inter (Label) -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@400;500;600&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="../homepage/homepage.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Tailwind Configuration -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#39475f",
+                        "tertiary-fixed-dim": "#00dbe9",
+                        "on-primary-container": "#74829d",
+                        surface: "var(--color-surface)",
+                        "on-surface": "var(--color-on-surface)",
+                        "tertiary": "#00dbe9",
+                        "inverse-on-surface": "#2f3133",
+                        "inverse-surface": "#e2e2e5",
+                        "on-background": "#e2e2e5",
+                        "on-secondary-fixed-variant": "#474646",
+                        background: "var(--color-background)",
+                        "surface-container-high": "#282a2c",
+                        "surface-container": "#1e2022",
+                        "tertiary-container": "#001d1f",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-tertiary-fixed-variant": "#004f54",
+                        "inverse-primary": "#515f78",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "on-secondary-container": "#bab8b7",
+                        "surface-bright": "#37393b",
+                        "primary-container": "#0a192f",
+                        "surface-container-highest": "#333537",
+                        "on-tertiary": "#00363a",
+                        "on-primary-fixed": "#0d1c32",
+                        "tertiary-fixed": "#7df4ff",
+                        "secondary": "#c8c6c5",
+                        "surface-tint": "#b9c7e4",
+                        "surface-container-lowest": "#0c0e10",
+                        "surface-dim": "#121416",
+                        "on-primary": "#233148",
+                        "outline-variant": "#44474d",
+                        "on-tertiary-fixed": "#002022",
+                        "surface-container-low": "#1a1c1e",
+                        "on-tertiary-container": "#009099",
+                        "outline": "#8f9097",
+                        "on-error": "#690005",
+                        "on-surface-variant": "#c5c6cd",
+                        "secondary-container": "#4a4949",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "on-error-container": "#ffdad6",
+                        "surface-variant": "#333537",
+                        "primary-fixed": "#d6e3ff",
+                        "on-secondary": "#313030",
+                        "primary-fixed-dim": "#b9c7e4",
+                        primary: "var(--color-primary)",
+                        "error": "#ffb4ab",
+                        "error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {},
+                    "fontFamily": {
+                        "headline": [
+                            "Chakra petch", "serif"
+                        ],
+                        "body": [
+                            "Chakra petch", "sans-serif"
+                        ],
+                        "label": [
+                            "Inter", "sans-serif"
+                        ]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+         /* Custom utilities for specific design system constraints not fully covered by tailwind defaults */
+        :root {
+            /* Light Mode Values */
+            --color-primary: #e7e7e7;
+            --color-word: #FF0800; 
+            --color-background: #ffffff;
+            --color-surface: #e9fcff;
+            --color-alter-text: #121416;
+            --color-on-surface: #121416;
+            --nav-active-bg: #ccd7ff;           
+            --nav-active-text: #428eff;
+            --nav-active-glow: rgba(0, 102, 255, 0.25);
+            --input-bg: #ffffff;
+            --input-border: #d1d5db;
+            --input-placeholder: #6b7280;
+            --input-focus: #428eff;
+            --card-bg: #ffffff;
+            /* Card */
+            --card-hover: #f3f4f6;
+            --card-border: #e5e7eb;
+
+            --badge-bg: #f3f4f6;
+            --badge-text: #003f7e;
+
+            --definition-bg: rgba(255, 0, 0, 0.05);
+            --definition-border: rgba(255, 0, 0, 0.2);
+
+            --context-bg: rgba(0,0,0,0.03);
+            /* Tags */
+            --tag-bg: rgba(66, 142, 255, 0.1);
+            --tag-hover: rgba(66, 142, 255, 0.2);
+            --tag-text: #428eff;
+            --tag-border: rgba(66, 142, 255, 0.2);
+            
+            --bookmark-cut: var(--card-bg);
+        }
+
+        .dark {
+            /* Dark Mode Values (From your current config) */
+            --color-primary: #b9c7e4;
+            --color-background: #121416;
+            --color-surface: #1e2022;
+            --color-on-surface: #e2e2e5;
+            --color-alter-text: #c2dff3;
+            --nav-active-bg: #0a192f;
+            --nav-active-text: #00dbe9;
+            --nav-active-glow: rgba(0, 219, 233, 0.3);
+            --input-bg: #0c0e10;
+            --input-border: #44474d;
+            --input-placeholder: #c5c6cd;
+            --input-focus: #00dbe9;
+            /* card */
+            --card-bg: #1a1c1e;
+            --card-hover: #282a2c;
+            --card-border: #44474d;
+
+            --badge-bg: rgba(255,255,255,0.05);
+            --badge-text: #e2e2e5;
+
+            --definition-bg: rgba(255, 180, 171, 0.1);
+            --definition-border: rgba(255, 180, 171, 0.2);
+
+            --context-bg: rgba(255,255,255,0.03);
+
+            /* Tags */
+            --tag-bg: rgba(0, 219, 233, 0.1);
+            --tag-hover: rgba(0, 219, 233, 0.2);
+            --tag-text: #00dbe9;
+            --tag-border: rgba(0, 219, 233, 0.2);
+
+            --bookmark-cut: var(--color-surface);
+        }
+        .glass-panel {
+            background-color: rgba(51, 53, 55, 0.7);
+            /* surface-container-highest at 70% */
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, #b9c7e4, #74829d);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background text-on-surface font-body antialiased min-h-screen overflow-x-hidden selection:bg-tertiary selection:text-on-tertiary">
+    <!-- Ambient Background Layer -->
+    <header class="lg:hidden flex items-center justify-between h-16 px-6 bg-[var(--color-surface)] border-b border-white/10 sticky top-0 z-40 shadow-md">
+        <div class="flex items-center gap-4">
+            <!-- ปุ่ม Hamburger -->
+            <button id="hamburgerBtn" class="p-2 -ml-2 text-[var(--nav-active-text)] hover:bg-white/10 rounded-lg transition-colors focus:outline-none">
+                <span class="material-symbols-outlined text-3xl">menu</span>
+            </button>
+            <span class="font-headline font-bold text-xl tracking-wide">Trasus</span>
+        </div>
+        
+    </header>
+    <div id="navOverlay" class="fixed inset-0 bg-black/70 z-40 hidden opacity-0 transition-opacity duration-300 xl:hidden backdrop-blur-sm"></div>
+
+    <div class="fixed inset-0 z-[-1] pointer-events-none">
+        <div class="absolute inset-0 bg-background"></div>
+        <div class="absolute inset-0 bg-cover bg-center opacity-5 blur-2xl"
+            data-alt="heavily blurred, moody classic law library with dark wood, dusty volumes, and glowing amber ambient light"
+            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuArS_xv6nE4vE-n2yQr2s9LaXZOCu3l5KslB8t1koahzE9YafnkbCnCbwF7dqV5skhL8yvT-1nmF8iF8Hw6dS0Yk6q86m3Ewt8TUH-sAaBci_QGglxQpcizOSdgWURgh7-RYKwK73BTBx5x48XH5gqIv023moUWidqm9lNha-A8deyg0ZytCGlCMkcgs8DQqFKI8MG1W-AwLOoGMEm-BiCoqWpN3-yLv3x7EsdXs-WzLC5yNmqkXwf0K3K_BpxBWcnAEk-YgdjSM8c');">
+        </div>
+        <div
+            class="absolute inset-0 bg-gradient-to-br 
+            from-background/95 
+            via-background/80 
+            to-surface/90 mix-blend-multiply">
+        </div>
+    </div>
+
+    <div class="flex h-screen w-full relative">
+        <!-- Side Navigation (Shared Component Integration) -->
+        <!-- <div class="menu-toggle">
+            <div class="hamburger">
+                <span></spau>
+            </div>
+        </div> -->
+        <aside id="sideNav" class="sidebar tonal-layering border-r border-white/5 -translate-x-full lg:translate-x-0 transition-transform duration-300">
+            <div class="px-8 mb-10 flex items-center gap-4">
+                <h1 class="font-headline text-4xl m-0 leading-tight">Trasus</h1>
+                <!-- ปุ่มกากบาทปิดเมนู (โชว์เฉพาะใน iPad/Mobile) -->
+                <button id="closeMenuBtn" class="lg:hidden ml-auto p-1 text-gray-400 hover:text-white rounded-md">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto px-4 space-y-2 pt-2">
+                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-[var(--nav-active-text)] bg-[var(--nav-active-bg)] 
+                    shadow-[0px_0px_12px_var(--nav-active-glow)] transition-all duration-300 font-body font-bold" href="../homepage/explorer.html">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">explore</span>
+                    <span>เครื่องมือสำรวจ</span>
+                </a>
+                <!-- <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
+                    href="../homepage/ai-legel-assistant.html">
+                    <span class="material-symbols-outlined">smart_toy</span>
+                    <span>ผู้ช่วยที่ปรึกษา AI</span>
+                </a> -->
+                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
+                    href="../homepage/workspace.html">
+                    <span class="material-symbols-outlined">inventory_2</span>
+                    <span>Workspace ของคุณ</span>
+                </a>
+                <!-- <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
+                    href="../homepage/compare.html">
+                    <span class="material-symbols-outlined">compare_arrows</span>
+                    <span>เปรี่ยบเทียบคำศัพท์</span>
+                </a>
+                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
+                    href="../homepage/games.html">
+                    <span class="material-symbols-outlined">sports_esports</span>
+                    <span>เกมฝึกคำศัพท์</span>
+                </a>
+                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
+                    href="../homepage/store_rewards.html">
+                    <span class="material-symbols-outlined">local_library</span>
+                    <span>ร้านค้าของรางวัล</span>
+                </a>
+                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
+                    href="../homepage/skill.html">
+                    <span class="material-symbols-outlined">analytics</span>
+                    <span>วิเคราะห์ทักษะ</span>
+                </a> -->
+            </div>
+            <div class="px-4 pb-0 mt-auto pt-6 border-t border-white/5 space-y-2">
+                <button class="w-full text-black bg-blue-300 flex justify-center items-center py-3.5 px-4 rounded-md shadow-sm font-body font-semibold hover:opacity-90 transition-all duration-200" id="theme-toggle">
+                    Toggle Theme
+                </button>
+                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
+                    href="#">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span>ตั้งค่า</span>
+                </a>
+                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
+                    href="#">
+                    <span class="material-symbols-outlined">help_outline</span>
+                    <span>สนับสนุนผู้ใช้</span>
+                </a>
+
+                <button onclick="handleLogout()" class="w-full flex items-center gap-4 px-4 py-3 rounded-r-full text-[var(--color-word)] color-word opacity-70 hover:opacity-100 hover:bg-error/10 transition-all duration-300 font-body outline-none">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>ออกจากระบบ</span>
+                </button>
+
+            </div>
+        </aside>
+        <!-- Main Content Canvas -->
+        <main class="w-full lg:ml-72 flex flex-col pt-16 pb-24 px-6 md:px-12 lg:px-20 xl:px-32 max-w-[1920px]">
+            <!-- Header Section with Intentional Asymmetry -->
+            <header class="mb-16 max-w-4xl pr-8">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="h-[1px] w-12 bg-tertiary"></div>
+                    <span
+                        class="font-label text-[var(--nav-active-text)] text-sm tracking-[0.2em] uppercase">ระบบค้นหาเมทริกซ์อัจฉริยะ</span>
+                </div>
+                <h2
+                    class="font-headline text-4xl md:text-2xl lg:text-6xl text-on-surface leading-[1.1] tracking-tight mb-8">
+                    ค้นหาคำศัพท์ <br /><span class="">ทางกฏหมาย</span>
+                </h2>
+                <p
+                    class="font-body text-lg md:text-2xl text-on-surface leading-relaxed max-w-2xl border-l-2 border-outline-variant/30 pl-6 ml-2">
+                    สวัสดีน้า พวกเราTRASUS 
+                    ผู้ช่วยค้นหาคำศัพท์และคำตอบเพื่อช่วยเรียนรู้ ลองค้นหาดูสิ ได้ความรู้มากมายนะ
+                </p>
+            </header>
+            <!-- Search & Filter Controls -->
+            <section class="mb-12 flex flex-col xl:flex-row gap-6 items-end relative z-20">
+                <div class="w-full xl:flex-1 relative group">
+                    <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                        <span
+                            class="material-symbols-outlined text-[var(--input-focus)] group-focus-within:text-[var(--input-focus)] transition-colors">manage_search</span>
+                    </div>
+                    <input id="searchInput"
+                        class="w-full bg-[var(--input-bg)] text-on-surface border-b border-[var(--input-border)] placeholder-[var(--input-placeholder)] focus:border-[var(--input-focus)]
+                        focus:bg-[var(--input-bg)]/80 font-body text-lg py-5 pl-14 pr-16 rounded-t-lg transition-all" placeholder="กรอกคำศัพท์, แนวคิด, หรือ หลักกฎหมาย..." type="text" />
+                    <button
+                        class="absolute inset-y-0 right-2 my-auto h-10 px-4 flex items-center text-primary hover:text-tertiary transition-colors">
+                        <!-- <span class="material-symbols-outlined">mic</span> -->
+                    </button>
+                    <!-- Active insertion point glow simulation -->
+                    <div
+                        class="absolute bottom-0 left-0 h-[2px] bg-[var(--input-focus)] w-0 group-focus-within:w-full transition-all duration-500 ease-out">
+                    </div>
+                </div>
+                <!-- Filters -->
+                <!-- Filters -->
+                <div class="flex flex-wrap gap-4 w-full xl:w-auto items-end">
+                    
+                    <!-- Dropdown: CEFR -->
+                    <div class="flex-1 xl:flex-none relative group">
+                        <select id="cefrFilter"
+                            class="appearance-none w-full bg-[var(--input-bg)] hover:bg-[var(--input-bg)]/80 border border-[var(--input-border)] text-on-surface  
+                                   font-label text-sm py-4 px-6 pr-12 rounded-md transition-all focus:ring-1 focus:ring-tertiary focus:outline-none cursor-pointer">
+                            <option value="">ทุกระดับ CEFR</option>
+                            <option value="A1">A1 - Beginner</option>
+                            <option value="A2">A2 - Elementary</option>
+                            <option value="B1">B1 - Intermediate</option>
+                            <option value="B2">B2 - Upper Intermediate</option>
+                            <option value="C1">C1 - Advanced</option>
+                            <option value="C2">C2 - Proficiency</option>
+                        </select>
+                        </div>
+
+                    <!-- Dropdown: ประเภทกฎหมาย -->
+                    <div class="flex-1 xl:flex-none relative group">
+                        <select id="typeFilter"
+                            class="appearance-none w-full bg-[var(--input-bg)] hover:bg-[var(--input-bg)]/80 border border-[var(--input-border)] text-on-surface 
+                                   font-label text-sm py-4 px-6 pr-12 rounded-md transition-all focus:ring-1 focus:ring-tertiary focus:outline-none cursor-pointer">
+                            <option value="">ทุกประเภทกฎหมาย</option>
+                            <option value="พระราชบัญญัติ">พระราชบัญญัติ (Act)</option>
+                            <option value="พระราชกฤษฎีกา">พระราชกฤษฎีกา (Decree)</option>
+                            <option value="กฎกระทรวง">กฎกระทรวง (Regulation)</option>
+                            <option value="รัฐธรรมนูญ">รัฐธรรมนูญ (Constitution)</option>
+                        </select>
+                        </div>
+
+                    <!-- <button class="w-14 h-[54px] flex items-center justify-center bg-surface-container-low hover:bg-surface-container-high border border-outline-variant/15 text-primary rounded-md transition-all group">
+                        <span class="material-symbols-outlined text-[20px] group-hover:text-tertiary">tune</span>
+                    </button> -->
+                    
+                </div>
+    </section>
+    <!-- Vocabulary Cards Bento Grid -->
+    <section id="resultsGrid"
+        class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6 auto-rows-[minmax(280px,auto)] relative z-10">
+
+    </section>
+    </main>
+    </div>
+    <script type="module" src="../src/explorer.js"></script>
+    <script>    
+        // const menu_toggle = document.querySelector('.menu-toggle');
+        // const sidebar = document.querySelector('.sidebar');
+        
+        // menu_toggle.addEventListener('click', ()=> {
+        //     menu_toggle.classList.toggle('open');
+        //     sidebar.classList.toggle('open');
+        // })
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const closeMenuBtn = document.getElementById('closeMenuBtn');
+            const sideNav = document.getElementById('sideNav');
+            const navOverlay = document.getElementById('navOverlay');
+
+            // ฟังก์ชันสำหรับเปิดเมนู
+            function openNav() {
+                sideNav.classList.remove('-translate-x-full');
+                sideNav.classList.add('translate-x-0');
+
+                navOverlay.classList.remove('hidden');
+                setTimeout(() => navOverlay.classList.replace('opacity-0', 'opacity-100'), 10);
+            }
+
+            function closeNav() {
+                sideNav.classList.add('-translate-x-full');
+                sideNav.classList.remove('translate-x-0');
+
+                navOverlay.classList.replace('opacity-100', 'opacity-0');
+                setTimeout(() => navOverlay.classList.add('hidden'), 300);
+            }
+
+            // จับคู่ Event ให้ปุ่มต่างๆ
+            hamburgerBtn.addEventListener('click', openNav);
+            closeMenuBtn.addEventListener('click', closeNav);
+            navOverlay.addEventListener('click', closeNav); // กดจอดำเพื่อปิด
+
+            // ป้องกันบั๊กเวลาหมุนหน้าจอ iPad (สลับแนวตั้ง-แนวนอน)
+            window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) { // lg breakpoint
+                sideNav.classList.remove('-translate-x-full');
+                sideNav.classList.add('translate-x-0');
+                navOverlay.classList.add('hidden');
+            } else {
+                sideNav.classList.add('-translate-x-full');
+                sideNav.classList.remove('translate-x-0');
+            }
+        });
+        });
+    </script>
+</body>
+
+</html>
