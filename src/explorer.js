@@ -106,22 +106,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // ==========================================
-    // 🚨 3. ฟังก์ชันสร้างการ์ด (แก้คอขวด LocalStorage แล้ว)
+   // ==========================================
+    // 🚨 3. ฟังก์ชันสร้างการ์ด 
     // ==========================================
     function renderCards(words) {
-        resultsGrid.innerHTML = ''; // ล้างของเก่าทิ้ง
+        resultsGrid.innerHTML = '';
 
         if (words.length === 0) {
             resultsGrid.innerHTML = `<p class="text-on-surface-variant text-center w-full col-span-full pt-10">ไม่พบคำศัพท์ที่คุณค้นหา</p>`;
             return;
         }
 
-        // ตัวช่วยจัดฟอร์แมตข้อมูล (กัน Error ถ้าข้อมูลเป็น null)
         const formatArr = (arr) => (arr && arr.length > 0) ? arr.join(', ') : '-';
         const formatTxt = (txt) => txt || '-';
 
-        // 🛠️ ดึง LocalStorage ไว้นอกลูปเพื่อความลื่นไหล
         const currentFavs = JSON.parse(localStorage.getItem('trasus_favs')) || [];
         const checkFav = (id) => currentFavs.some(fav => fav.id == id);
 
@@ -133,112 +131,103 @@ document.addEventListener('DOMContentLoaded', async () => {
             let tagsHTML = '';
             if (word.tag && word.tag.length > 0) {
                 tagsHTML = word.tag.map(t => {
-                    // สร้างปุ่มแท็กสวยๆ สไตล์ Pill (เม็ดยา)
-                    return `<button data-action="tag" data-tag="${t.trim()}" class="inline-block bg-[var(--tag-bg)] hover:bg-[var(--tag-hover)] text-[var(--tag-text)] border border-[var(--tag-border)] text-[11px] px-2.5 py-1 rounded-full transition-colors font-label mr-2 mb-2 focus:outline-none">
+                    return `<button data-action="tag" data-tag="${t.trim()}" class="inline-block bg-[var(--tag-bg)] hover:bg-[var(--tag-hover)] text-[var(--tag-text)] border border-[var(--tag-border)] text-[10px] xl:text-[11px] px-2 py-0.5 xl:px-2.5 xl:py-1 rounded-full transition-colors font-label mr-1.5 xl:mr-2 mb-1.5 xl:mb-2 focus:outline-none">
                                 ${t.trim()}
                             </button>`;
                 }).join('');
             }
 
-            // 🛠️ กำหนด ID ให้ถูกต้อง และเช็คสถานะการกดดาว
             const wordId = word.id || word._id;
             const isFav = checkFav(wordId);
 
             const cardHTML = `
-                <article class="relative bg-[var(--card-bg)] p-6 md:p-8 rounded-xl flex flex-col group overflow-hidden transition-all duration-500 hover:bg-[var(--card-hover)] border border-[var(--card-border)] shadow-lg col-span-full mb-4 ease-in-out h-fit">
+                <article class="relative bg-[var(--card-bg)] p-5 xl:p-8 rounded-xl flex flex-col group overflow-hidden transition-all duration-500 hover:bg-[var(--card-hover)] border border-[var(--card-border)] shadow-lg col-span-full mb-4 ease-in-out h-fit">
                     
-                    <div class="absolute top-0 right-6 md:right-8 w-6 md:w-8 h-10 md:h-12 bg-error/90 rounded-b-sm flex items-end justify-center pb-1 shadow-sm z-10">
+                    <!-- ที่คั่นหนังสือ -->
+                    <div class="absolute top-0 right-5 md:right-8 w-6 md:w-8 h-10 md:h-12 bg-error/90 rounded-b-sm flex items-end justify-center pb-1 shadow-sm z-10">
                         <div class="absolute -bottom-[1px] w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[8px] md:border-l-[16px] md:border-r-[16px] md:border-b-[10px] border-b-[var(--bookmark-cut)] transition-colors duration-300"></div>
                     </div>
 
                     <div class="relative z-10 flex flex-col h-full w-full">
                         
-                        <div class="relative flex justify-between items-start pr-12 md:pr-16 mb-2">
+                        <!-- ======================================= -->
+                        <!-- 📱 ส่วนหัว: สำหรับมือถือ และ iPad แนวตั้ง -->
+                        <!-- ======================================= -->
+                        <div class="flex xl:hidden flex-col items-start mb-2 w-full relative z-20">
+                            <!-- ⭐ ปุ่มดาว -->
+                            <button data-action="favorite" data-id="${wordId}" data-word="${word.word}" data-meaning="${formatTxt(word.meaning)}" data-cefr="${formatTxt(word.cefr)}" class="focus:outline-none absolute right-7 md:right-20 top-0 transition-all ${isFav ? 'text-tertiary' : 'text-outline-variant'} z-30">
+                                <span class="material-symbols-outlined text-[28px] md:text-[32px] fav-icon" style="font-variation-settings: 'FILL' ${isFav ? '1' : '0'};">star</span>
+                            </button>
+
+                            <h3 class="font-headline text-3xl md:text-4xl font-bold text-[var(--color-word)] tracking-tight capitalize w-full break-words pr-24 md:pr-32">${word.word}</h3>
+                            <span class="font-headline text-xl md:text-2xl text-[var(--nav-active-text)] font-medium mt-1 leading-tight w-full break-words pr-24 md:pr-32">${formatTxt(word.meaning)}</span>
                             
-                            <div class="flex items-center gap-3 relative z-20">
-                                <h3 class="font-headline text-4xl md:text-5xl font-bold text-[var(--color-word)] tracking-tight capitalize">${word.word}</h3>
+                            <!-- ป้าย CEFR + POS (💡 ใส่กรอบ border ให้ POS ตรงนี้แล้วครับ) -->
+                            <div class="flex items-center gap-2 mt-3 mb-1">
+                                <span class="font-label text-[10px] md:text-[12px] uppercase tracking-widest bg-[var(--badge-bg)] px-2 py-0.5 rounded text-on-surface">${formatTxt(word.cefr)}</span>
+                                <span class="font-label text-[11px] md:text-[13px] uppercase tracking-widest text-[var(--badge-text)] px-2 py-0.5 rounded border border-outline-variant/30">${posText}</span>
+                            </div>
+                        </div>
+
+                        <!-- ======================================= -->
+                        <!-- 💻 ส่วนหัว: สำหรับคอมพิวเตอร์ และ iPad แนวนอน -->
+                        <!-- ======================================= -->
+                        <div class="hidden xl:flex relative justify-between items-start pr-12 mb-4 z-20 w-full">
+                            
+                            <!-- ซ้าย: คำศัพท์ -->
+                            <div class="flex justify-start w-[40%]">
+                                <h3 class="font-headline text-5xl font-bold text-[var(--color-word)] tracking-tight capitalize break-words">${word.word}</h3>
                             </div>
 
-                            <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center gap-2 mt-2 z-20">
-
+                            <!-- กลาง: ปุ่มดาว และ ป้าย (ไม่มีกรอบตามเดิม) -->
+                            <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center gap-2 mt-2 px-2">
                                 <button data-action="favorite" data-id="${wordId}" data-word="${word.word}" data-meaning="${formatTxt(word.meaning)}" data-cefr="${formatTxt(word.cefr)}" class="focus:outline-none transform hover:scale-110 transition-all ${isFav ? 'text-tertiary' : 'text-outline-variant hover:text-tertiary'}">
                                     <span class="material-symbols-outlined text-[32px] fav-icon" style="font-variation-settings: 'FILL' ${isFav ? '1' : '0'};">star</span>
                                 </button>
-
-                                <div class="hidden items-center gap-2 ml-2 sm:flex">
-                                    <span class="font-label text-[12px] uppercase tracking-widest bg-[var(--badge-bg)] px-3 py-1 rounded ">${formatTxt(word.cefr)}</span>
-                                    <span class="font-label text-[14px] uppercase tracking-widest text-[var(--badge-text)] px-3 py-1 rounded ">${posText}</span>
+                                <div class="flex items-center gap-2 ml-2">
+                                    <span class="font-label text-[12px] uppercase tracking-widest bg-[var(--badge-bg)] px-3 py-1 rounded whitespace-nowrap">${formatTxt(word.cefr)}</span>
+                                    <span class="font-label text-[14px] uppercase tracking-widest text-[var(--badge-text)] px-3 py-1 rounded whitespace-nowrap">${posText}</span>
                                 </div>
                             </div>
-                            
-                            <span class="font-headline text-xl md:text-3xl text-[var(--nav-active-text)] font-medium mt-1">${formatTxt(word.meaning)}</span>
-                        </div>
 
-                        <div class="mb-5">
-                            <span class="font-label text-lg text-primary/70  italic tracking-wide block mb-2">/${formatTxt(word.ipa)}/</span>
+                            <!-- ขวา: ความหมาย -->
+                            <div class="flex justify-end text-right w-[40%]">
+                                <span class="font-headline text-3xl text-[var(--nav-active-text)] font-medium mt-1 leading-tight break-words">${formatTxt(word.meaning)}</span>
+                            </div>
+
+                        </div>
+                        <!-- ======================================= -->
+
+                        <!-- IPA & Tags -->
+                        <div class="mb-4 xl:mb-5">
+                            <span class="font-label text-sm xl:text-lg text-primary/70 italic tracking-wide block mb-2">/${formatTxt(word.ipa)}/</span>
                             <div class="flex flex-wrap items-center">
                                 ${tagsHTML}
                             </div>
                         </div>
 
-                        <div class="bg-[var(--context-bg)] rounded-lg p-5 border border-[var(--context-border)] relative mb-5">
-                            <span class="absolute -top-3 left-4 bg-surface-container-low group-hover:bg-surface-container-high transition-colors px-2 font-label text-[10px] text-tertiary uppercase tracking-widest font-semibold">DEFINITION</span>
-                            <p class="expandable-text font-body text-[20px] text-on-surface leading-relaxed pt-1 line-clamp-2 transition-all duration-300">
+                        <!-- Definition -->
+                        <div class="bg-[var(--context-bg)] rounded-lg p-4 xl:p-5 border border-[var(--context-border)] relative mb-4 xl:mb-5">
+                            <span class="absolute -top-2.5 xl:-top-3 left-3 xl:left-4 bg-surface-container-low px-1.5 xl:px-2 font-label text-[9px] xl:text-[10px] text-tertiary uppercase tracking-widest font-semibold">DEFINITION</span>
+                            <p class="expandable-text font-body text-[16px] xl:text-[20px] text-on-surface leading-snug xl:leading-relaxed pt-1 transition-all duration-300">
                                 ${formatTxt(word.define)}
                             </p>
                         </div>
 
-                        <div class="bg-[var(--context-bg)] rounded-lg p-5 border border-[var(--context-border)] relative mb-2">
-                            <span class="absolute -top-3 left-4 bg-surface-container-low group-hover:bg-surface-container-high transition-colors px-2 font-label text-[10px] text-tertiary uppercase tracking-widest font-semibold">CONTEXT USAGE</span>
-                            <p class="expandable-text font-body text-[16px] leading-relaxed pt-1 italic line-clamp-2 transition-all duration-300">
+                        <!-- Context Usage -->
+                        <div class="bg-[var(--context-bg)] rounded-lg p-4 xl:p-5 border border-[var(--context-border)] relative mb-2">
+                            <span class="absolute -top-2.5 xl:-top-3 left-3 xl:left-4 bg-surface-container-low px-1.5 xl:px-2 font-label text-[9px] xl:text-[10px] text-tertiary uppercase tracking-widest font-semibold">CONTEXT USAGE</span>
+                            <p class="expandable-text font-body text-[15px] xl:text-[16px] leading-snug xl:leading-relaxed pt-1 italic transition-all duration-300 text-on-surface">
                                 ${formatTxt(word.how_to_use || word.howToUse)}
                             </p>
                         </div>
                         
-                        
-                        <div class="expanded-data hidden w-full pt-6 mt-4 border-t border-outline-variant/20 opacity-0 transition-opacity duration-500">
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                                
-                                <div class="space-y-3">
-                                    <h4 class="font-label text-tertiary text-s uppercase tracking-widest mb-2 border-b border-tertiary/20 pb-1">ข้อมูลเชิงภาษาและบริบท</h4>
-                                    <div class="flex flex-col gap-1"><span class="font-label text-[12px] text-on-surface-variant uppercase">สรุปทางกฎหมาย</span><span class="font-body text-md text-[var(--color-alter-text)]">${formatArr(word.keyword)}</span></div>
-                                    <div class="flex flex-col gap-1"><span class="font-label text-[12px] text-on-surface-variant uppercase">หมวดหมู่คำ</span><span class="font-body text-md text-[var(--color-alter-text)]">${formatArr(word.tag)}</span></div>
-                                    <div class="flex flex-col gap-1"><span class="font-label text-[12px] text-on-surface-variant uppercase">มักปรากฏในกฎหมายแบบใดบ้าง...</span><span class="font-body text-md text-[var(--color-alter-text)]">${formatTxt(word.culture)}</span></div>
-                                    <div class="flex flex-col gap-1"><span class="font-label text-[12px] text-on-surface-variant uppercase">หมายเหตุ</span><span class="font-body text-md text-[var(--color-alter-text)] italic">${formatTxt(word.note)}</span></div>
-                                </div>
-
-                                <div class="space-y-3">
-                                    <h4 class="font-label text-tertiary text-s uppercase tracking-widest mb-2 border-b border-tertiary/20 pb-1">แหล่งที่มาทางกฎหมาย</h4>
-                                    <div class="flex flex-col gap-1"><span class="font-label text-[12px] text-on-surface-variant uppercase">ชื่อกฎหมาย</span><span class="font-body text-md text-[var(--color-alter-text)]">${formatTxt(word.name)}</span></div>
-                                    <div class="flex flex-col gap-1"><span class="font-label text-[12px] text-on-surface-variant uppercase">ลำดับศักดิ์กฎหมาย</span><span class="font-body text-md text-[var(--color-alter-text)]">${formatTxt(word.type)} (ศักดิ์: ${formatTxt(word.hierarchy)})</span></div>
-                                    <div class="flex flex-col gap-1"><span class="font-label text-[12px] text-on-surface-variant uppercase">เลขมาตรา</span><span class="font-body text-md text-[var(--color-alter-text)]">${formatTxt(word.section)}</span></div>
-                                    <div class="flex flex-col gap-1"><span class="font-label text-[12px] text-on-surface-variant uppercase">ฏีกา</span><span class="font-body text-md text-[var(--color-alter-text)]">${formatArr(word.deka)}</span></div>
-                                    <div class="flex flex-col gap-1"><span class="font-label text-[12px] text-on-surface-variant uppercase">ปีที่ประกาศใช้</span><span class="font-body text-md text-[var(--color-alter-text)]">${formatTxt(word.effective_date || word.effectiveDate)}</span></div>
-                                </div>
-
-                                <div class="space-y-3">
-                                    <h4 class="font-label text-tertiary text-s uppercase tracking-widest mb-2 border-b border-tertiary/20 pb-1">กลไกและองค์ประกอบ</h4>
-                                    <div class="flex flex-col gap-1"><span class="font-label text-[12px] text-on-surface-variant uppercase">ส่วนเหตุผลของกฏหมายตามตัวบท</span><span class="font-body text-md text-[var(--color-alter-text)]">${formatArr(word.cause)}</span></div>
-                                    <div class="flex flex-col gap-1"><span class="font-label text-[12px] text-on-surface-variant uppercase">วรรคทอง</span><span class="font-body text-md text-tertiary font-medium">${formatTxt(word.golden_key || word.goldenKey)}</span></div>
-                                    <div class="flex flex-col gap-1"><span class="font-label text-[12px] text-on-surface-variant uppercase">องค์ประกอบเงื่อนไขกฏหมายกตามตัวบท</span><span class="font-body text-md text-[var(--color-alter-text)]">${formatArr(word.require)}</span></div>
-                                    <div class="flex flex-col gap-1"><span class="font-label text-[12px] text-on-surface-variant uppercase">ข้อยกเว้นตามบทกฎหมาย</span><span class="font-body text-md text-error">${formatArr(word.exception)}</span></div>
-                                    <div class="flex flex-col gap-1"><span class="font-label text-[12px] text-on-surface-variant uppercase">ผลทางกฎหมาย</span><span class="font-body text-md text-[var(--color-alter-text)]">${formatArr(word.effects)}</span></div>
-                                    <div class="flex flex-col gap-1"><span class="font-label text-[12px] text-on-surface-variant uppercase">มาตราบังคัลใช้ตามกฏหมายอื่น</span><span class="font-body text-md text-[var(--color-alter-text)]">${formatArr(word.special_effects || word.specialEffects)}</span></div>
-                                    <div class="flex flex-col gap-1"><span class="font-label text-[12px] text-on-surface-variant uppercase">อายุความ</span><span class="font-body text-md text-tertiary">${formatTxt(word.time)}</span></div>
-                                </div>
-                                
-                            </div>
-                        </div> 
-
-                        <div class="mt-auto grid grid-cols-3 items-center pt-5 mt-4 border-t border-outline-variant/15">
-                            <div class="text-left overflow-hidden pr-2">
-                            </div>
-                            
-                            <div class="flex justify-center">
-                                </div>
-
-                            <div class="text-right overflow-hidden pl-2">
-                                <span class="font-label text-[13px] text-on-surface-variant truncate block" title="${reference}">
+                        <!-- แถบด้านล่าง: มีแค่ Reference -->
+                        <div class="mt-auto flex justify-end xl:grid xl:grid-cols-3 items-center pt-4 xl:pt-5 mt-4 border-t border-outline-variant/15">
+                            <div class="hidden xl:block text-left overflow-hidden pr-2"></div>
+                            <div class="hidden xl:flex justify-center"></div>
+                            <div class="text-right overflow-hidden pl-0 xl:pl-2">
+                                <span class="font-label text-[11px] xl:text-[13px] text-on-surface-variant truncate block" title="${reference}">
                                     <strong class="text-on-surface font-bold tracking-wide uppercase">Ref:</strong> <span class="text-[var(--nav-active-text)]">${reference}</span>
                                 </span>
                             </div>

@@ -27,17 +27,21 @@ window.loadFavorites = function(showAll = false) {
     const limit = 4;
     const displayFavs = showAll ? favs : favs.slice(0, limit);
 
-    displayFavs.forEach(fav => {
+   displayFavs.forEach(fav => {
         const cardHTML = `
             <div onclick="goToExplorer('${fav.word}')" class="p-4 rounded-lg bg-[var(--container-bg)] border border-[var(--card-border)] relative group/card hover:bg-[var(--container-hover)] hover:border-tertiary/30 transition-all cursor-pointer">
-                <div class="mb-3">
+                
+                <div class="mb-3 pr-10">
                     <span class="inline-block px-2 py-0.5 rounded text-[10px] font-label font-bold bg-[var(--tag-bg)] hover:bg-[var(--tag-hover)] text-[var(--tag-text)]">
                         ${fav.cefr && fav.cefr !== '-' ? fav.cefr : 'N/A'}
                     </span>
                 </div>
-                <h4 class="font-headline text-lg text-on-surface mb-1 capitalize">${fav.word}</h4>
+                
+                <h4 class="font-headline text-lg text-on-surface mb-1 capitalize pr-10">${fav.word}</h4>
                 <p class="font-label text-on-surface-variant text-s line-clamp-2">${fav.meaning}</p>
-                <button onclick="event.stopPropagation(); removeFav('${fav.id}', '${fav.word}')" class="absolute top-4 right-4 text-outline-variant hover:text-error opacity-0 group-hover/card:opacity-100 transition-opacity outline-none z-10">
+                
+                <button onclick="event.stopPropagation(); removeFav('${fav.id}', '${fav.word}')" 
+                        class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-error/10 text-error hover:bg-error hover:text-[var(--card-bg)] transition-all outline-none z-10">
                     <span class="material-symbols-outlined text-[18px]">delete</span>
                 </button>
             </div>

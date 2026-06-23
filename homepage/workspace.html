@@ -25,6 +25,7 @@
                         background: "var(--color-background)",
                         "tertiary": "#00dbe9",
                         primary: "var(--color-primary)",
+                        
                         "surface-container-low": "#1a1c1e",
                         "surface-container-high": "#282a2c",
                         "surface-container-highest": "#333537",
@@ -46,6 +47,7 @@
     <style>
         :root {
             /* Light Mode Values */
+            --color-word: #FF0800; 
             --color-primary: #e7e7e7;
             --color-background: #ffffff;
             --color-surface: #e7fcff;
@@ -212,21 +214,24 @@
                 <button class="w-full text-black bg-blue-300 flex justify-center items-center py-3.5 px-4 rounded-md shadow-sm font-body font-semibold hover:opacity-90 transition-all duration-200" id="theme-toggle">
                     Toggle Theme
                 </button>
-                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
-                    href="#">
+                <a onclick="alert('⚙️ ระบบตั้งค่า อยู่ในเวอร์ชันเต็มครับ!'); return false;" 
+                   class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body cursor-pointer">
                     <span class="material-symbols-outlined">settings</span>
                     <span>ตั้งค่า</span>
                 </a>
-                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
-                    href="#">
+
+                <a onclick="alert('🎧 ระบบสนับสนุนผู้ใช้ อยู่ในเวอร์ชันเต็มครับ!\nหากมีปัญหาติดต่อ: admin@trasus.com'); return false;" 
+                   class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body cursor-pointer">
                     <span class="material-symbols-outlined">help_outline</span>
                     <span>สนับสนุนผู้ใช้</span>
                 </a>
 
-                <button onclick="handleLogout()" class="w-full flex items-center gap-4 px-4 py-3 rounded-r-full text-error opacity-70 hover:opacity-100 hover:bg-error/10 transition-all duration-300 font-body outline-none">
+                <a onclick="alert('⚙️ ระบบออกจากระบบ อยู่ในเวอร์ชันเต็มครับ!'); return false;" 
+                <button onclick="handleLogout()" class="w-full flex items-center gap-4 px-4 py-3 rounded-r-full text-[var(--color-word)] color-word opacity-70 hover:opacity-100 hover:bg-error/10 transition-all duration-300 font-body outline-none">
                     <span class="material-symbols-outlined">logout</span>
                     <span>ออกจากระบบ</span>
                 </button>
+            </a>
             </div>
         </aside>
 
