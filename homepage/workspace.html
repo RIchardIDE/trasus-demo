@@ -25,7 +25,7 @@
                         background: "var(--color-background)",
                         "tertiary": "#00dbe9",
                         primary: "var(--color-primary)",
-                        
+
                         "surface-container-low": "#1a1c1e",
                         "surface-container-high": "#282a2c",
                         "surface-container-highest": "#333537",
@@ -47,13 +47,13 @@
     <style>
         :root {
             /* Light Mode Values */
-            --color-word: #FF0800; 
+            --color-word: #FF0800;
             --color-primary: #e7e7e7;
             --color-background: #ffffff;
             --color-surface: #e7fcff;
             --color-alter-text: #121416;
             --color-on-surface: #121416;
-            --nav-active-bg: #ccd7ff;           
+            --nav-active-bg: #ccd7ff;
             --nav-active-text: #428eff;
             --nav-active-glow: rgba(0, 102, 255, 0.25);
             --input-bg: #ffffff;
@@ -62,7 +62,7 @@
             --input-focus: #428eff;
 
             --card-bg: #ffffff;
-            --card-alt-bg:#f0f7ff;
+            --card-alt-bg: #f0f7ff;
             --card-hover: #f5f7fa;
             --card-border: #e5e7eb;
 
@@ -95,7 +95,7 @@
             --input-focus: #00dbe9;
 
             --card-bg: #1a1c1e;
-            --card-alt-bg:#0a192f;
+            --card-alt-bg: #0a192f;
             --card-hover: #282a2c;
             --card-border: #44474d;
 
@@ -112,7 +112,7 @@
             --tag-border: rgba(0, 219, 233, 0.2);
 
             --bookmark-cut: var(--color-surface);
-            
+
         }
 
         .glass-panel {
@@ -145,17 +145,21 @@
 <body class="bg-[var(--color-background)] text-[var(--color-on-surface)] font-body h-screen overflow-hidden relative">
 
     <!-- Ambient Background Layer -->
-    <header class="lg:hidden flex items-center justify-between h-16 px-6 bg-[var(--color-surface)] border-b border-white/10 sticky top-0 z-40 shadow-md">
+    <header
+        class="lg:hidden flex items-center justify-between h-16 px-6 bg-[var(--color-surface)] border-b border-white/10 sticky top-0 z-40 shadow-md">
         <div class="flex items-center gap-4">
             <!-- ปุ่ม Hamburger -->
-            <button id="hamburgerBtn" class="p-2 -ml-2 text-[var(--nav-active-text)] hover:bg-white/10 rounded-lg transition-colors focus:outline-none">
+            <button id="hamburgerBtn"
+                class="p-2 -ml-2 text-[var(--nav-active-text)] hover:bg-white/10 rounded-lg transition-colors focus:outline-none">
                 <span class="material-symbols-outlined text-3xl">menu</span>
             </button>
             <span class="font-headline font-bold text-xl tracking-wide">Trasus</span>
         </div>
-        
+
     </header>
-    <div id="navOverlay" class="fixed inset-0 bg-black/70 z-40 hidden opacity-0 transition-opacity duration-300 xl:hidden backdrop-blur-sm"></div>
+    <div id="navOverlay"
+        class="fixed inset-0 bg-black/70 z-40 hidden opacity-0 transition-opacity duration-300 xl:hidden backdrop-blur-sm">
+    </div>
 
     <div class="fixed inset-0 z-[-1] bg-moody-library opacity-[0.03] blur-xl pointer-events-none"></div>
 
@@ -165,7 +169,8 @@
                 <span></spau>
             </div>
         </div> -->
-        <aside id="sideNav" class="sidebar tonal-layering border-r border-white/5 -translate-x-full lg:translate-x-0 transition-transform duration-300">
+        <aside id="sideNav"
+            class="sidebar tonal-layering border-r border-white/5 -translate-x-full lg:translate-x-0 transition-transform duration-300">
             <div class="px-8 mb-10 flex items-center gap-4">
                 <h1 class="font-headline text-4xl m-0 leading-tight">Trasus</h1>
                 <!-- ปุ่มกากบาทปิดเมนู (โชว์เฉพาะใน iPad/Mobile) -->
@@ -174,7 +179,8 @@
                 </button>
             </div>
             <div class="flex-1 overflow-y-auto px-4 space-y-2 pt-2">
-                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body" href="../homepage/explorer.html">
+                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
+                    href="../homepage/explorer.html">
                     <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">explore</span>
                     <span>เครื่องมือสำรวจ</span>
                 </a>
@@ -211,33 +217,35 @@
                 </a> -->
             </div>
             <div class="px-4 mt-auto pt-6 border-t border-white/5 space-y-2">
-                <button class="w-full text-black bg-blue-300 flex justify-center items-center py-3.5 px-4 rounded-md shadow-sm font-body font-semibold hover:opacity-90 transition-all duration-200" id="theme-toggle">
+                <button
+                    class="w-full text-black bg-blue-300 flex justify-center items-center py-3.5 px-4 rounded-md shadow-sm font-body font-semibold hover:opacity-90 transition-all duration-200"
+                    id="theme-toggle">
                     Toggle Theme
                 </button>
-                <a onclick="alert('⚙️ ระบบตั้งค่า อยู่ในเวอร์ชันเต็มครับ!'); return false;" 
-                   class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body cursor-pointer">
+                <a onclick="alert('⚙️ ระบบตั้งค่า อยู่ในเวอร์ชันเต็มครับ!'); return false;"
+                    class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body cursor-pointer">
                     <span class="material-symbols-outlined">settings</span>
                     <span>ตั้งค่า</span>
                 </a>
 
-                <a onclick="alert('🎧 ระบบสนับสนุนผู้ใช้ อยู่ในเวอร์ชันเต็มครับ!\nหากมีปัญหาติดต่อ: admin@trasus.com'); return false;" 
-                   class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body cursor-pointer">
+                <a onclick="alert('🎧 ระบบสนับสนุนผู้ใช้ อยู่ในเวอร์ชันเต็มครับ!\nหากมีปัญหาติดต่อ: admin@trasus.com'); return false;"
+                    class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body cursor-pointer">
                     <span class="material-symbols-outlined">help_outline</span>
                     <span>สนับสนุนผู้ใช้</span>
                 </a>
 
-                <a onclick="alert('⚙️ ระบบออกจากระบบ อยู่ในเวอร์ชันเต็มครับ!'); return false;" 
-                <button onclick="handleLogout()" class="w-full flex items-center gap-4 px-4 py-3 rounded-r-full text-[var(--color-word)] color-word opacity-70 hover:opacity-100 hover:bg-error/10 transition-all duration-300 font-body outline-none">
+                <button onclick="alert('⚙️ ระบบออกจากระบบ อยู่ในเวอร์ชันเต็มครับ!'); return false;"
+                    class="w-full flex items-center gap-4 px-4 py-3 rounded-r-full text-[var(--color-word)] color-word opacity-70 hover:opacity-100 hover:bg-error/10 transition-all duration-300 font-body outline-none">
                     <span class="material-symbols-outlined">logout</span>
                     <span>ออกจากระบบ</span>
                 </button>
-            </a>
             </div>
         </aside>
 
         <main class="flex-1 lg:ml-72 p-6 md:p-10 lg:p-12 overflow-y-auto h-screen custom-scrollbar">
             <div class="mb-10 pl-2">
-                <h2 class="font-headline text-4xl text-[var(--color-alter-text)] md:text-5xl lg:text-6xl font-normal tracking-tight mb-2">
+                <h2
+                    class="font-headline text-4xl text-[var(--color-alter-text)] md:text-5xl lg:text-6xl font-normal tracking-tight mb-2">
                     Workspace ของคุณ</h2>
                 <p class="font-body text-on-surface text-lg">
                     คลังข้อมูลที่คัดสรรมาอย่างเป็นระบบของบรรทัดฐานคำพิพากษาและองค์ความรู้ทางกฎหมาย</p>
@@ -302,8 +310,10 @@
                     </div>
                 </section>
 
-                <aside class="lg:col-span-3 rounded-xl glass-panel p-6 border bg-[var(--container-bg)] border border-[var(--card-border)] min-w-60 flex flex-col h-full">
-                    <div class="flex items-center text-[var(--color-alter-text)] gap-2 mb-6 border-b  border-outline-variant/20 pb-4">
+                <aside
+                    class="lg:col-span-3 rounded-xl glass-panel p-6 border bg-[var(--container-bg)] border border-[var(--card-border)] min-w-60 flex flex-col h-full">
+                    <div
+                        class="flex items-center text-[var(--color-alter-text)] gap-2 mb-6 border-b  border-outline-variant/20 pb-4">
                         <span class="material-symbols-outlined ">ประวัติ</span>
                         <span class="font-body text-xl">รายกิจกรรม</span>
                     </div>
@@ -384,15 +394,15 @@
 
             // ป้องกันบั๊กเวลาหมุนหน้าจอ iPad (สลับแนวตั้ง-แนวนอน)
             window.addEventListener('resize', () => {
-            if (window.innerWidth >= 1024) { // lg breakpoint
-                sideNav.classList.remove('-translate-x-full');
-                sideNav.classList.add('translate-x-0');
-                navOverlay.classList.add('hidden');
-            } else {
-                sideNav.classList.add('-translate-x-full');
-                sideNav.classList.remove('translate-x-0');
-            }
-        });
+                if (window.innerWidth >= 1024) { // lg breakpoint
+                    sideNav.classList.remove('-translate-x-full');
+                    sideNav.classList.add('translate-x-0');
+                    navOverlay.classList.add('hidden');
+                } else {
+                    sideNav.classList.add('-translate-x-full');
+                    sideNav.classList.remove('translate-x-0');
+                }
+            });
         });
     </script>
 </body>

@@ -9,17 +9,20 @@ let dictionaryData = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
     const searchInput = document.getElementById('searchInput');
+    const suggestionsList = document.getElementById('suggestionsList');
     const resultsGrid = document.getElementById('resultsGrid');
     const cefrFilter = document.getElementById('cefrFilter');
     const typeFilter = document.getElementById('typeFilter');
+
+
 
     // ==========================================
     // 🥷 1. โหลดข้อมูลแบบพรางตา (Secure) แล้วถอดรหัสใน RAM
     // ==========================================
     try {
         resultsGrid.innerHTML = `<p class="text-tertiary text-center w-full col-span-full font-label tracking-widest animate-pulse">กำลังสแกนระบบรักษาความปลอดภัย...</p>`;
-        
-        const response = await fetch('/secure-core.dat'); 
+
+        const response = await fetch('/secure-core.dat');
         const securePackage = await response.json();
 
         // 🛠️ FIX: อัปเกรดระบบถอดรหัส (TextDecoder) อ่านภาษาไทยได้ไวและเสถียร 100% ไม่มีบั๊กต่างดาว
@@ -29,7 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             bytes[i] = binaryStr.charCodeAt(i);
         }
         const decodedString = new TextDecoder('utf-8').decode(bytes);
-        
+
         dictionaryData = JSON.parse(decodedString);
 
     } catch (error) {
@@ -41,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const triggerSearch = () => {
         searchInput.dispatchEvent(new Event('input', { bubbles: true }));
     };
-    
+
     cefrFilter?.addEventListener('change', triggerSearch);
     typeFilter?.addEventListener('change', triggerSearch);
 
@@ -54,31 +57,77 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     // ==========================================
-    // 🚨 2. ระบบค้นหาแบบ Offline (ปรับแก้เรื่องการกระพริบแล้ว)
+    // 🚨 2. ระบบค้นหาอัจฉริยะ v3.0 (Fuzzy Search + Filtering)
     // ==========================================
+
+    // ตั้งค่า Fuse.js ไว้ในระดับ Global หรือ scope ที่มองเห็นได้
+    let fuse;
+
+    // ในตอนโหลดข้อมูล (DOMContentLoaded) ให้ init fuse ตรงนี้ครับ
+    // ...หลังจาก dictionaryData = JSON.parse(decodedString);
+    const options = {
+        // ใช้แบบ object เพื่อกำหนดน้ำหนัก (Weight) ให้แต่ละฟิลด์
+        keys: [
+            { name: 'word', weight: 4.0 },       // ตรงชื่อคำศัพท์ = คะแนนสูงสุด
+            { name: 'misspelled', weight: 3.0 }, // เจอในคำที่พิมพ์ผิดบ่อย = คะแนนสูง (เพราะแสดงว่าพิมพ์ใกล้เคียง)
+            { name: 'meaning', weight: 2.0 },    // ความหมาย
+            { name: 'define', weight: 1.0 },     // นิยาม
+            { name: 'how_to_use', weight: 1.0 }, // บริบท
+            { name: 'howToUse', weight: 1.0 },
+            { name: 'tag', weight: 0.5 }         // แท็ก (สำคัญน้อยสุด)
+        ],
+        threshold: 0.3, // ความเป๊ะ (0 คือเป๊ะสุด, 0.4 คือยอมให้ผิดได้เยอะ)
+        distance: 100,  // ยิ่งเยอะยิ่งหาไกล
+        includeScore: true // เพื่อความแม่นยำในการ Sort
+    };
+
+    fuse = new Fuse(dictionaryData, options);
+
+    suggestionsList.addEventListener('click', (e) => {
+        const item = e.target.closest('.suggestion-item');
+        if (item) {
+            searchInput.value = item.dataset.word;
+            suggestionsList.classList.add('hidden'); 
+            triggerSearch();
+        }
+    });
+
+    // ปรับ Event Listener สำหรับการค้นหา
     searchInput.addEventListener('input', debounce((e) => {
-        const query = e.target.value.trim().toLowerCase();
+        const query = e.target.value.trim();
         const cefr = cefrFilter ? cefrFilter.value : '';
         const type = typeFilter ? typeFilter.value : '';
 
-        const results = dictionaryData.filter(word => {
-            // 🛠️ FIX: เติม .toLowerCase() ให้ word.meaning เพื่อแก้บั๊กค้นหาคำอังกฤษไม่เจอ
-            const matchQuery = query === '' || 
-                               (word.word && word.word.toLowerCase().includes(query)) || 
-                               (word.meaning && word.meaning.toLowerCase().includes(query)) ||
-                               (word.misspelled && word.misspelled.some(m => m.toLowerCase().includes(query))) ||
-                               (word.tag && word.tag.some(t => t.toLowerCase().includes(query)));
-            
+        let results = [];
+
+        // ถ้าพิมพ์คำค้นหา ให้ใช้ Fuse หา (มันจะเรียงลำดับความแม่นยำมาให้เสร็จ)
+        if (query !== '') {
+            results = fuse.search(query).map(result => result.item);
+
+            // แก้ในส่วน render ของ suggestionsList
+            suggestionsList.innerHTML = results.slice(0, 5).map(item => `
+    <div class="px-4 py-3 hover:bg-[var(--card-hover)] cursor-pointer flex justify-between items-center suggestion-item" 
+         data-word="${item.word}">
+        <span class="font-bold text-on-surface">${item.word}</span>
+        <span class="text-xs text-on-surface">${item.meaning || ''}</span>
+    </div>
+`).join('');
+            suggestionsList.classList.remove('hidden');
+        } else {
+            results = dictionaryData;
+            suggestionsList.classList.add('hidden');
+        }
+
+        // กรองด้วย Cefr และ Type ต่อ (Filtering)
+        const finalResults = results.filter(word => {
             const matchCefr = cefr === '' || cefr === 'all' || word.cefr === cefr;
             const matchType = type === '' || type === 'all' || word.type === type;
-
-            return matchQuery && matchCefr && matchType;
+            return matchCefr && matchType;
         });
 
-        // 🛠️ FIX: เอา Timeout ดีเลย์หลอกๆ และข้อความ "กำลังสืบค้น" ออกเพื่อให้หน้าจอไม่กระพริบ
-        renderCards(results);
+        renderCards(finalResults);
 
-    }, 250)); // ลดเวลา debounce ลงนิดนึงให้แอปตอบสนองนิ้วไวขึ้น (250ms)
+    }, 250));
 
     resultsGrid.addEventListener('click', (e) => {
         const target = e.target.closest('[data-action]');
@@ -106,7 +155,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-   // ==========================================
+    // ==========================================
     // 🚨 3. ฟังก์ชันสร้างการ์ด 
     // ==========================================
     function renderCards(words) {
@@ -302,24 +351,24 @@ function toggleExpand(button) {
 // เช็คความซ้ำซ้อนเอาไว้นอกลูปตอนเรนเดอร์แล้ว ตัวนี้ปล่อยไว้ได้เลยครับ
 function isFavorited(id) {
     const favs = JSON.parse(localStorage.getItem('trasus_favs')) || [];
-    return favs.some(fav => fav.id == id); 
+    return favs.some(fav => fav.id == id);
 }
 
 function toggleFavorite(id, word, meaning, cefr, btnElement) {
     const icon = btnElement.querySelector('.fav-icon');
     let favs = JSON.parse(localStorage.getItem('trasus_favs')) || [];
-    
+
     const index = favs.findIndex(f => f.id == id);
 
     if (index === -1) {
-        favs.push({ id, word, meaning, cefr }); 
-        
+        favs.push({ id, word, meaning, cefr });
+
         icon.style.fontVariationSettings = "'FILL' 1";
         btnElement.classList.add('text-tertiary');
         btnElement.classList.remove('text-outline-variant');
     } else {
         favs.splice(index, 1);
-        
+
         icon.style.fontVariationSettings = "'FILL' 0";
         btnElement.classList.remove('text-tertiary');
         btnElement.classList.add('text-outline-variant');
@@ -327,3 +376,21 @@ function toggleFavorite(id, word, meaning, cefr, btnElement) {
 
     localStorage.setItem('trasus_favs', JSON.stringify(favs));
 }
+
+// ฟังก์ชันกดเลือกคำแนะนำ
+function selectSuggestion(word) {
+    const searchInput = document.getElementById('searchInput');
+    const suggestionsList = document.getElementById('suggestionsList');
+    searchInput.value = word;
+    suggestionsList.classList.add('hidden');
+    searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+// คลิกข้างนอกเพื่อปิด Suggestion
+document.addEventListener('click', (e) => {
+    const searchWrapper = document.getElementById('searchWrapper');
+    const suggestionsList = document.getElementById('suggestionsList');
+    if (searchWrapper && !searchWrapper.contains(e.target)) {
+        suggestionsList.classList.add('hidden');
+    }
+});
