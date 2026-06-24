@@ -32,7 +32,7 @@ window.loadFavorites = function(showAll = false) {
             <div onclick="goToExplorer('${fav.word}')" class="p-4 rounded-lg bg-[var(--container-bg)] border border-[var(--card-border)] relative group/card hover:bg-[var(--container-hover)] hover:border-tertiary/30 transition-all cursor-pointer">
                 
                 <div class="mb-3 pr-10">
-                    <span class="inline-block px-2 py-0.5 rounded text-[10px] font-label font-bold bg-[var(--tag-bg)] hover:bg-[var(--tag-hover)] text-[var(--tag-text)]">
+                    <span class="inline-block px-2 py-0.5 rounded text-[10px] font-label font-bold v hover:bg-[var(--tag-hover)] text-[var(--tag-text)]">
                         ${fav.cefr && fav.cefr !== '-' ? fav.cefr : 'N/A'}
                     </span>
                 </div>
@@ -52,7 +52,7 @@ window.loadFavorites = function(showAll = false) {
     if (!showAll && favs.length > limit) {
         favoriteGrid.insertAdjacentHTML('beforeend', `
             <div class="col-span-full mt-2 flex justify-center">
-                <button onclick="loadFavorites(true)" class="bg-surface-container-low hover:bg-surface-container-high border border-tertiary/20 text-tertiary text-xs font-label py-2 px-6 rounded-full flex items-center gap-2 transition-all outline-none">
+                <button onclick="loadFavorites(true)" class="bg-[var(--container-bg)] hover:bg-[var(--container-hover)] border border-[var(--tag-text)] text-[var(--tag-text)] text-xs font-label py-2 px-6 rounded-full flex items-center gap-2 transition-all outline-none">
                     ดูทั้งหมด (${favs.length} คำ) <span class="material-symbols-outlined text-[16px]">expand_more</span>
                 </button>
             </div>

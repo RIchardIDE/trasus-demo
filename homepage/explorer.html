@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html class="dark" lang="en">
 
 <head>
     <meta charset="utf-8" />
@@ -257,36 +257,39 @@
                     href="../homepage/compare.html">
                     <span class="material-symbols-outlined">compare_arrows</span>
                     <span>เปรี่ยบเทียบคำศัพท์</span>
-                </a>
+                </a> -->
                 <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
                     href="../homepage/games.html">
                     <span class="material-symbols-outlined">sports_esports</span>
                     <span>เกมฝึกคำศัพท์</span>
                 </a>
-                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
+                <!-- <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
                     href="../homepage/store_rewards.html">
                     <span class="material-symbols-outlined">local_library</span>
                     <span>ร้านค้าของรางวัล</span>
-                </a>
-                <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
+                </a> -->
+                <!-- <a class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body"
                     href="../homepage/skill.html">
                     <span class="material-symbols-outlined">analytics</span>
                     <span>วิเคราะห์ทักษะ</span>
                 </a> -->
+
             </div>
             <div class="px-4 pb-0 mt-auto pt-6 border-t border-white/5 space-y-2">
+
                 <button
                     class="w-full text-black bg-blue-300 flex justify-center items-center py-3.5 px-4 rounded-md shadow-sm font-body font-semibold hover:opacity-90 transition-all duration-200"
                     id="theme-toggle">
                     Toggle Theme
                 </button>
+
                 <a onclick="alert('⚙️ ระบบตั้งค่า อยู่ในเวอร์ชันเต็มครับ!'); return false;"
                     class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body cursor-pointer">
                     <span class="material-symbols-outlined">settings</span>
                     <span>ตั้งค่า</span>
                 </a>
 
-                <a onclick="alert('🎧 ระบบสนับสนุนผู้ใช้ อยู่ในเวอร์ชันเต็มครับ!\nหากมีปัญหาติดต่อ: admin@trasus.com'); return false;"
+                <a onclick="alert('🎧 ระบบสนับสนุนผู้ใช้ อยู่ในเวอร์ชันเต็มครับ!\nหากมีปัญหาติดต่อ: trasus.security@gmail.com'); return false;"
                     class="flex items-center gap-4 px-4 py-3 rounded-r-full text-on-surface opacity-70 hover:opacity-100 hover:bg-surface hover:text-[#00dbe9] transition-all duration-300 font-body cursor-pointer">
                     <span class="material-symbols-outlined">help_outline</span>
                     <span>สนับสนุนผู้ใช้</span>
@@ -301,7 +304,8 @@
             </div>
         </aside>
         <!-- Main Content Canvas -->
-        <main class="w-full lg:ml-72 flex flex-col pt-16 pb-24 px-6 md:px-12 lg:px-20 xl:px-32 max-w-[1920px]">
+        <main id="mainScroll"
+            class="w-full lg:ml-72 flex flex-col pt-16 pb-24 px-6 md:px-12 lg:px-20 xl:px-32 max-w-[1920px]">
             <!-- Header Section with Intentional Asymmetry -->
             <header class="mb-16 max-w-4xl pr-8">
                 <div class="flex items-center gap-3 mb-6">
@@ -376,6 +380,15 @@
             <section id="resultsGrid"
                 class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6 auto-rows-[minmax(280px,auto)] relative z-10">
             </section>
+
+            <button id="scrollToTopBtn" class="fixed bottom-14 right-8 md:bottom-14 md:right-10 z-[60] 
+               bg-[var(--nav-active-bg)] text-[var(--nav-active-text)] 
+               shadow-[0px_0px_15px_var(--nav-active-glow)] border border-white/10
+               p-3 md:p-4 rounded-full flex items-center justify-center 
+               opacity-0 invisible translate-y-5 transition-all duration-300 hover:scale-110 cursor-pointer">
+                <span class="material-symbols-outlined text-2xl md:text-3xl">arrow_upward</span>
+            </button>
+
         </main>
     </div>
     <script type="module" src="../src/explorer.js"></script>
@@ -427,6 +440,47 @@
                 }
             });
         });
+
+        // ==========================================
+        // 🚀 ระบบ Back to Top (ทำงานได้แน่นอน 100% V.2)
+        // ==========================================
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        const mainScroll = document.getElementById('mainScroll');
+
+        if (scrollToTopBtn) {
+            // ฟังก์ชันเช็คระยะการเลื่อน
+            const handleScroll = () => {
+                // ดึงค่าการเลื่อนจากทั้งหน้าต่าง (Window) และ mainScroll มาเทียบกัน
+                // ตัวไหนเลื่อนเยอะกว่า เอาค่านั้นมาใช้
+                const scrollPos = Math.max(
+                    window.scrollY || 0,
+                    document.documentElement.scrollTop || 0,
+                    mainScroll ? mainScroll.scrollTop : 0
+                );
+
+                if (scrollPos > 300) {
+                    scrollToTopBtn.classList.remove('opacity-0', 'invisible', 'translate-y-5');
+                    scrollToTopBtn.classList.add('opacity-100', 'visible', 'translate-y-0');
+                } else {
+                    scrollToTopBtn.classList.add('opacity-0', 'invisible', 'translate-y-5');
+                    scrollToTopBtn.classList.remove('opacity-100', 'visible', 'translate-y-0');
+                }
+            };
+
+            // ดักจับการเลื่อนทั้ง 2 ที่ (กันเหนียว)
+            window.addEventListener('scroll', handleScroll);
+            if (mainScroll) {
+                mainScroll.addEventListener('scroll', handleScroll);
+            }
+
+            // เวลากดปุ่ม ให้สั่งเลื่อนขึ้นบนสุดทั้ง 2 ที่
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                if (mainScroll) {
+                    mainScroll.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+        }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
 </body>
