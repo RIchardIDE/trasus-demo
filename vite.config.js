@@ -7,6 +7,7 @@ export default defineConfig({
         main: 'index.html',
         explorer: 'homepage/explorer.html',
         workspace: 'homepage/workspace.html',
+        games: 'homepage/games.html',
       }
     }
   }
